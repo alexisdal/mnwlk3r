@@ -1,0 +1,12 @@
+<launch>
+  <!-- https://github.com/ros-planning/navigation/issues/206 -->
+  
+<!--
+  <include file="$(find mnwlk3r_bringup)/launch/rplidar.launch"/>
+  <include file="$(find mnwlk3r_bringup)/launch/robot_standalone.launch"/>
+-->
+
+  <include file="$(find mnwlk3r_bringup)/launch/includes/gmapping.launch.xml"/>
+  <include file="$(find mnwlk3r_bringup)/launch/includes/move_base.launch.xml"/>
+
+</launch>

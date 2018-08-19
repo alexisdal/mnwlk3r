@@ -38,11 +38,21 @@
     <param name="ymax" value="1.0"/>
 
     <!-- Increase resolution -->
-    <param name="delta" value="0.01"/>
+    <param name="delta" value="0.05"/> <!-- resolution of map = size of a single pixel defaults to 0.01 which is too small? -->
     <param name="llsamplerange" value="0.01"/>
     <param name="llsamplestep" value="0.01"/>
     <param name="lasamplerange" value="0.005"/>
     <param name="lasamplestep" value="0.005"/>
+    
+    <!--
+    values i found on the constructsim / navigation in 5 days / section 2 mapping
+        <param name="delta" value="0.05"/>
+    <param name="llsamplerange" value="0.01"/>
+    <param name="llsamplestep" value="0.01"/>
+    <param name="lasamplerange" value="0.005"/>
+    <param name="lasamplestep" value="0.005"/>
+     -->
+    
     <remap from="scan" to="$(arg scan_topic)"/>
   </node>
 </launch>
