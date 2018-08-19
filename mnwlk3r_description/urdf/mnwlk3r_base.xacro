@@ -31,7 +31,7 @@
     <color rgba="1.0 1.0 1.0 1.0"/>
   </material>  
   
-  <gazebo reference="link_chassis">
+  <gazebo reference="base_footprint">
     <material>Gazebo/Orange</material>
   </gazebo>
   <gazebo reference="link_left_wheel">
@@ -48,7 +48,7 @@
     </xacro:macro>
 
   
-  <link name="link_chassis">
+  <link name="base_footprint">
     <!-- pose and inertial -->
     <pose>0 0 0.068 0 0 0</pose>
     <inertial>
@@ -151,7 +151,7 @@
   <joint name="joint_right_wheel" type="continuous">
     <origin xyz="0 -0.164 0" rpy="0 0 0"  /> <!-- X=0  |  Y = half box width + 12m spacer + half wheel width ==> x = -280/2 - 12mm -24/2 = -164mm  -->
     <child link="link_right_wheel" />
-    <parent link="link_chassis"/>
+    <parent link="base_footprint"/>
     <axis  xyz="0 1 0" rpy="0 0 0" />
     <limit effort="10000" velocity="1000"/>
     <joint_properties damping="1.0" friction="1.0" />
@@ -189,7 +189,7 @@
   <joint name="joint_left_wheel" type="continuous">
     <origin xyz="0 0.164 0" rpy="0 0 0"  /> <!-- X=0  |  Y = half box width + 12m spacer + half wheel width ==> x = -280/2 - 12mm -24/2 = -164mm  -->
     <child link="link_left_wheel" />
-    <parent link="link_chassis"/>
+    <parent link="base_footprint"/>
     <axis  xyz="0 1 0" rpy="0 0 0" />
     <limit effort="10000" velocity="1000"/>
     <joint_properties damping="1.0" friction="1.0" />
@@ -227,7 +227,7 @@
   <joint name="joint_sensor_laser" type="fixed">
     <origin xyz="0.200 0.000 0.110" rpy="0 0 1.5707" />
     <child link="sensor_laser"/>
-    <parent link="link_chassis"/>
+    <parent link="base_footprint"/>
   </joint>
 
 </robot>

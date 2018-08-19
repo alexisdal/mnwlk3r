@@ -75,7 +75,7 @@ class TwistToMotors():
             
         self.right = 1.0 * self.dx + self.dr * self.w / 2 
         self.left = 1.0 * self.dx - self.dr * self.w / 2
-        rospy.loginfo("publishing: (%d, %d)", self.left, self.right) 
+        #rospy.loginfo("publishing: (%d, %d)", self.left, self.right) 
                 
         self.pub_lmotor.publish(self.left)
         self.pub_rmotor.publish(self.right)
@@ -85,7 +85,7 @@ class TwistToMotors():
     #############################################################
     def twistCallback(self,msg):
     #############################################################
-        rospy.loginfo("-D- twistCallback: %s" % str(msg))
+        #rospy.loginfo("-D- twistCallback: %s" % str(msg))
         self.ticks_since_target = 0
         self.dx = msg.linear.x
         self.dr = msg.angular.z

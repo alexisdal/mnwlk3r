@@ -1,17 +1,23 @@
 <launch>
 
   <!-- change this next line to include the launch file for your robot's hardware drivers: -->
-
  <arg name="simulation" default="$(optenv TURTLEBOT_SIMULATION false)"/>
  <param name="/use_sim_time" value="$(arg simulation)"/>
 
   <param name="robot_description" command="$(find xacro)/xacro.py '$(find mnwlk3r_description)/urdf/mnwlk3r_base.xacro'"/>
 
 
-
+  <!-- send fake joint values -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+    <param name="use_gui" value="False"/>
+  </node>
+ 
+ 
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
     <param name="publish_frequency" type="double" value="5.0" />
   </node>
+  
+  
 
    <!-- base_width ==> the distance between the two wheels (from center of wheels?)
      164 mm * 2 = 328mm -->
