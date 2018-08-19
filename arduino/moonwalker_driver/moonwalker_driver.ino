@@ -1,8 +1,24 @@
+// inspired from https://github.com/qboticslabs/Chefbot_ROS_pkg/blob/master/arduino/chefbot/chefbot.ino
 
-#define pin_motor_left_dir  7
-#define pin_motor_left_pwm  5
-#define pin_motor_right_dir 8
-#define pin_motor_right_pwm 6
+
+#define pin_motor_left_dir  7  // dir2
+#define pin_motor_left_pwm  5  // pwm2
+#define pin_motor_right_dir 8  // dir1
+#define pin_motor_right_pwm 6  // pwm1
+
+// motor pin out on cytron MDD10A Rev 2.0 
+// product page => https://www.cytron.io/p-mdd10a?search=mDD10a&description=1
+// manual       => https://docs.google.com/document/d/1ol8nICCTTw5dAHHE_hju08cCVH2GN5_Y3cGC6B4Gbas/edit
+// left motor 
+// white negative <=> M2B
+// red positive   <=> M2A
+// right motor
+// white negative <=> M1B
+// red positive   <=> M1A
+// to test this when we click on the test button MAx => each motor must turn counter clockwise
+// logic = we keep connection/pinout the same on the board and we want to adjust the code to change direction and encoder values accordingly
+//         a positive speed value command from serial must make the wheel turn so that mnwlk3r goes forward   and encoder count increases
+//         a negative speed value command from serial must make the wheel turn so that mnwlk3r goes backwards and encoder count decreases
 
 float motor_left_speed = 0.0;
 float motor_right_speed = 0.0;
@@ -37,7 +53,7 @@ volatile bool RightEncoderBSet;
 
 
 void setup() {
-  //Init Serial port with 115200 buad rate
+  //Init Serial port with 115200 baud rate
   Serial.begin(115200);
   setup_motors();
   setup_encoders();
@@ -119,11 +135,12 @@ void update_motors() {
 void moveLeftMotor(float motor_speed) {
   if (motor_speed < -255) motor_speed = -255;
   if (motor_speed > +255) motor_speed = +255;
+  // with default pinout, left motor direction must be reversed compared to right motor
   if (motor_speed < 0) {
-    digitalWrite(pin_motor_left_dir, 0);
+    digitalWrite(pin_motor_left_dir, 1);
     analogWrite(pin_motor_left_pwm , (int)(-motor_speed));
   } else {
-    digitalWrite(pin_motor_left_dir, 1);
+    digitalWrite(pin_motor_left_dir, 0);
     analogWrite(pin_motor_left_pwm , (int)(motor_speed));
   }
 }
@@ -176,7 +193,8 @@ void update_encoders()
 void do_left_encoder()
 {
   LeftEncoderBSet = digitalRead(Left_Encoder_PinB);   // read the input pin
-  Left_Encoder_Ticks += LeftEncoderBSet ? -1 : +1;
+  // here we need to decrease counter
+  Left_Encoder_Ticks -= LeftEncoderBSet ? -1 : +1;
 
 }
 void do_right_encoder()
