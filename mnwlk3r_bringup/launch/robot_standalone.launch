@@ -45,10 +45,11 @@
   <rosparam param="ticks_meter">776</rosparam>
 
 
+  
+  
   <node name="arduino_node" pkg="mnwlk3r_bringup" type="arduino_node.py">
     <rosparam file="$(find mnwlk3r_bringup)/param/board_config.yaml" command="load" />
   </node>
-
 
   <node name="lpid_velocity" pkg="mnwlk3r_bringup" type="pid_velocity.py" output="screen">
       <remap from="wheel" to="lwheel"/>
@@ -66,8 +67,9 @@
       <rosparam param="timeout_ticks">4</rosparam>
       <rosparam param="rolling_pts">5</rosparam>
       -->
-      <rosparam param="Kp">100</rosparam>
-      <rosparam param="Ki">100</rosparam>
+      
+      <rosparam param="Kp">150</rosparam>
+      <rosparam param="Ki">30</rosparam>
       <rosparam param="Kd">0</rosparam>
       <rosparam param="out_min">-255</rosparam>
       <rosparam param="out_max">255</rosparam>
@@ -82,8 +84,8 @@
       <remap from="motor_cmd" to="right_wheel_speed"/>
       <remap from="wheel_vtarget" to="rwheel_vtarget"/>
       <remap from="wheel_vel" to="rwheel_vel"/>
-      <rosparam param="Kp">100</rosparam>
-      <rosparam param="Ki">100</rosparam>
+      <rosparam param="Kp">150</rosparam>
+      <rosparam param="Ki">30</rosparam>
       <rosparam param="Kd">0</rosparam>
       <rosparam param="out_min">-255</rosparam>
       <rosparam param="out_max">255</rosparam>
