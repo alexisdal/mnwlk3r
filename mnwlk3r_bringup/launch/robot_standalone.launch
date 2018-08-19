@@ -1,0 +1,100 @@
+<launch>
+
+  <!-- change this next line to include the launch file for your robot's hardware drivers: -->
+
+ <arg name="simulation" default="$(optenv TURTLEBOT_SIMULATION false)"/>
+ <param name="/use_sim_time" value="$(arg simulation)"/>
+
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find mnwlk3r_description)/urdf/mnwlk3r_base.xacro'"/>
+
+
+
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="5.0" />
+  </node>
+
+   <!-- base_width ==> the distance between the two wheels (from center of wheels?)
+     164 mm * 2 = 328mm -->
+  <rosparam param="base_width">0.328</rosparam> <!--  xxxx --> 
+  <!-- ticks_meter ==> The number of wheel encoder ticks per meter of travel
+  in the specs i see 
+    Gear ratio: 51:1
+    Encoder Resolution: 13 PPR (663 PPR for gearbox shaft)
+  therefore, there should be 13*51=663 ticks per wheel revolution. I measure while turning the wheels forward:
+    e	0	654 ==> right wheel
+    e	-652	0  ==> left wheel
+  the wheel diameter is 134mm
+  1 revolution is then 134*pi=427.2566008882119 mm
+  427.256 mm <==> 663 ticks
+  1000mm <=> 663/427.2566008882119*1000 = 1551.7606951459795
+  it was 14865 in chefbot... a much higher value. maybe the wheel diameter was smaller. or encoder resolution higher. or both.
+  it was 
+        motor & encoder => https://www.pololu.com/product/1447 
+           (8400 ticks per revolution after gearbox)
+        wheels => https://www.pololu.com/product/1439
+           (90mm diameter)
+        90*pi=282.7433388230814 mm per wheel revolution
+        8400/282.7433388230814*1000 = 29708.92271048713
+    it's not 14865...
+    but almst exactly the double
+    29708.92271048713/14865
+    I must have a mistake in my calculation somewhere. let's use half of 1551.7606951459795=775.8803475729898
+    775/14865.0=0.052135889673730236
+    I lost 95% precision :'(... wow... i hope it will not break the story
+    -->
+  <rosparam param="ticks_meter">776</rosparam>
+
+
+  <node name="arduino_node" pkg="mnwlk3r_bringup" type="arduino_node.py">
+    <rosparam file="$(find mnwlk3r_bringup)/param/board_config.yaml" command="load" />
+  </node>
+
+
+  <node name="lpid_velocity" pkg="mnwlk3r_bringup" type="pid_velocity.py" output="screen">
+      <remap from="wheel" to="lwheel"/>
+      <remap from="motor_cmd" to="left_wheel_speed"/>
+      <remap from="wheel_vtarget" to="lwheel_vtarget"/>
+      <remap from="wheel_vel" to="lwheel_vel"/>
+    
+<!-- default vaules from chefbot
+      <rosparam param="Kp">400</rosparam>
+      <rosparam param="Ki">100</rosparam>
+      <rosparam param="Kd">0</rosparam>
+      <rosparam param="out_min">-1023</rosparam>
+      <rosparam param="out_max">1023</rosparam>
+      <rosparam param="rate">30</rosparam>
+      <rosparam param="timeout_ticks">4</rosparam>
+      <rosparam param="rolling_pts">5</rosparam>
+      -->
+      <rosparam param="Kp">100</rosparam>
+      <rosparam param="Ki">100</rosparam>
+      <rosparam param="Kd">0</rosparam>
+      <rosparam param="out_min">-255</rosparam>
+      <rosparam param="out_max">255</rosparam>
+      <rosparam param="rate">30</rosparam>
+      <rosparam param="timeout_ticks">4</rosparam>
+      <rosparam param="rolling_pts">5</rosparam>
+
+   </node>
+
+  <node name="rpid_velocity" pkg="mnwlk3r_bringup" type="pid_velocity.py" output="screen">
+      <remap from="wheel" to="rwheel"/>
+      <remap from="motor_cmd" to="right_wheel_speed"/>
+      <remap from="wheel_vtarget" to="rwheel_vtarget"/>
+      <remap from="wheel_vel" to="rwheel_vel"/>
+      <rosparam param="Kp">100</rosparam>
+      <rosparam param="Ki">100</rosparam>
+      <rosparam param="Kd">0</rosparam>
+      <rosparam param="out_min">-255</rosparam>
+      <rosparam param="out_max">255</rosparam>
+      <rosparam param="rate">30</rosparam>
+      <rosparam param="timeout_ticks">4</rosparam>
+      <rosparam param="rolling_pts">5</rosparam>
+ </node>
+
+
+  <node pkg="mnwlk3r_bringup" type="twist_to_motors.py" name="twist_to_motors" output="screen"/>
+  <node pkg="mnwlk3r_bringup" type="diff_tf.py"         name="diff_tf"         output="screen"/> 
+
+
+</launch>

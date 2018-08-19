@@ -1,0 +1,4 @@
+# we put it in a separate file so that we can change the /dev/ttyACM0 in case it changes later on without touching the launch files
+port: /dev/ttyACM0
+baudRate: 115200
+
