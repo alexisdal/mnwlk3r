@@ -1,6 +1,10 @@
 // inspired from https://github.com/qboticslabs/Chefbot_ROS_pkg/blob/master/arduino/chefbot/chefbot.ino
 
 
+// https://github.com/NicksonYap/digitalWriteFast
+#include <digitalWriteFast.h>  
+
+
 #define pin_motor_left_dir  7  // dir2
 #define pin_motor_left_pwm  5  // pwm2
 #define pin_motor_right_dir 8  // dir1
@@ -38,15 +42,15 @@ char c = 0;
 //Encoder pins definition
 
 // Left encoder
-int Left_Encoder_PinA = 2;
-int Left_Encoder_PinB = 9;
+#define Left_Encoder_PinA  2
+#define Left_Encoder_PinB  9
 volatile long Left_Encoder_Ticks = 0;
 //Variable to read current state of left encoder pin
 volatile bool LeftEncoderBSet;
 
 //Right Encoder
-int Right_Encoder_PinA = 3;
-int Right_Encoder_PinB = 10;
+#define  Right_Encoder_PinA  3
+#define  Right_Encoder_PinB  10
 volatile long Right_Encoder_Ticks = 0;
 //Variable to read current state of right encoder pin
 volatile bool RightEncoderBSet;
@@ -82,13 +86,13 @@ void loop() {
 }
 
 void setup_motors() {
-  pinMode(pin_motor_left_dir, OUTPUT);
+  pinModeFast(pin_motor_left_dir, OUTPUT);
   pinMode(pin_motor_left_pwm, OUTPUT);
-  pinMode(pin_motor_right_dir, OUTPUT);
+  pinModeFast(pin_motor_right_dir, OUTPUT);
   pinMode(pin_motor_right_pwm, OUTPUT);
-  digitalWrite(pin_motor_left_dir, 0);
+  digitalWriteFast(pin_motor_left_dir, 0);
   analogWrite(pin_motor_left_pwm , 0);
-  digitalWrite(pin_motor_right_dir, 0);
+  digitalWriteFast(pin_motor_right_dir, 0);
   analogWrite(pin_motor_right_pwm, 0);
 }
 
@@ -154,10 +158,10 @@ void moveLeftMotor(float motor_speed) {
   if (motor_speed > +255) motor_speed = +255;
   // with default pinout, left motor direction must be reversed compared to right motor
   if (motor_speed < 0) {
-    digitalWrite(pin_motor_left_dir, 1);
+    digitalWriteFast(pin_motor_left_dir, 1);
     analogWrite(pin_motor_left_pwm , (int)(-motor_speed));
   } else {
-    digitalWrite(pin_motor_left_dir, 0);
+    digitalWriteFast(pin_motor_left_dir, 0);
     analogWrite(pin_motor_left_pwm , (int)(motor_speed));
   }
 }
@@ -166,10 +170,10 @@ void moveRightMotor(float motor_speed) {
   if (motor_speed < -255) motor_speed = -255;
   if (motor_speed > +255) motor_speed = +255;
   if (motor_speed < 0) {
-    digitalWrite(pin_motor_right_dir, 0);
+    digitalWriteFast(pin_motor_right_dir, 0);
     analogWrite(pin_motor_right_pwm , (int)(-motor_speed));
   } else {
-    digitalWrite(pin_motor_right_dir, 1);
+    digitalWriteFast(pin_motor_right_dir, 1);
     analogWrite(pin_motor_right_pwm , (int)(motor_speed));
   }
 }
@@ -183,14 +187,14 @@ void setup_encoders()
 {
   // Quadrature encoders
   // Left encoder
-  pinMode(Left_Encoder_PinA, INPUT);      // sets pin A pullup
-  pinMode(Left_Encoder_PinB, INPUT);      // sets pin B pullup
+  pinModeFast(Left_Encoder_PinA, INPUT);      // sets pin A pullup
+  pinModeFast(Left_Encoder_PinB, INPUT);      // sets pin B pullup
   attachInterrupt(digitalPinToInterrupt(Left_Encoder_PinA), do_left_encoder, RISING);
 
 
   // Right encoder
-  pinMode(Right_Encoder_PinA, INPUT);      // sets pin A pullup
-  pinMode(Right_Encoder_PinB, INPUT);      // sets pin B pullup
+  pinModeFast(Right_Encoder_PinA, INPUT);      // sets pin A pullup
+  pinModeFast(Right_Encoder_PinB, INPUT);      // sets pin B pullup
 
   attachInterrupt(digitalPinToInterrupt(Right_Encoder_PinA), do_right_encoder, RISING);
 
@@ -199,14 +203,14 @@ void setup_encoders()
 
 void do_left_encoder()
 {
-  LeftEncoderBSet = digitalRead(Left_Encoder_PinB);   // read the input pin
+  LeftEncoderBSet = digitalReadFast(Left_Encoder_PinB);   // read the input pin
   // here we need to decrease counter
   Left_Encoder_Ticks -= LeftEncoderBSet ? -1 : +1;
 
 }
 void do_right_encoder()
 {
-  RightEncoderBSet = digitalRead(Right_Encoder_PinB);   // read the input pin
+  RightEncoderBSet = digitalReadFast(Right_Encoder_PinB);   // read the input pin
   Right_Encoder_Ticks += RightEncoderBSet ? -1 : +1;
 }
 
