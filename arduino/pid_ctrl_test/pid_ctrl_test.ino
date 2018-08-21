@@ -58,15 +58,19 @@ volatile bool RightEncoderBSet;
 // with PID lib
 #include <PID_v1.h>
 //Define Variables we'll be connecting to
-double Setpoint, Input, Output;
+double Setpoint_left, Input_left, Output_left;
+double Setpoint_right, Input_right, Output_right;
 
 //Specify the links and initial tuning parameters
 double Kp=2, Ki=5, Kd=1;
 //PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
-PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, P_ON_M, DIRECT);
+PID myPID_left(&Input_left, &Output_left, &Setpoint_left, Kp, Ki, Kd, P_ON_M, DIRECT);
+PID myPID_right(&Input_right, &Output_right, &Setpoint_right, Kp, Ki, Kd, P_ON_M, DIRECT);
+
 
 #define PID_LOOP_TIME_MS        200                     // PID loop time (milli sec. 100ms <=> 10Hz)
 double  right_RPM = 0.0;
+double  left_RPM = 0.0;
 long last_update_ms = 0;  
 
 
@@ -128,10 +132,11 @@ void parse_command(char * cmd) {
     cmd[0] = ','; // to skip the 's' in the following strtok()
     token = strtok(cmd, ",");
     motor_left_speed = atof(token);
+    set_target_speed_left(motor_left_speed);
     token = strtok(NULL, ",");
     motor_right_speed = atof(token);
-    set_target_speed(motor_right_speed);
-    set_pid_mode(1);
+    set_target_speed_right(motor_right_speed);
+    set_pid_mode_left(1); set_pid_mode_right(1);
   } else if (cmd[0] == 'k') { // set PID tuning (kp, ki, kd)
     cmd[0] = ',';
     token = strtok(cmd, ",");
@@ -142,12 +147,12 @@ void parse_command(char * cmd) {
     double kd = atof(token);
     token = strtok(NULL, ",");
     set_pid_tuning(kp, ki, kd);
-    set_pid_mode(1);
+    set_pid_mode_left(1); set_pid_mode_right(1);
   } else if (cmd[0] == 'o') { // set PID active 1 / inactive 0
     cmd[0] = ',';
     token = strtok(cmd, ",");
     int m = atoi(token);
-    set_pid_mode(m);
+    set_pid_mode_left(m); set_pid_mode_right(m);
   }
 }
 
@@ -217,39 +222,64 @@ void do_right_encoder()
 
 void setup_pid() 
 {
-  Input = 0.0;
+  Input_right = 0.0;
+  Input_left = 0.0;
   // No load RPM (after gearbox): 146rpm@12V
   // 100 RPM target = nice round figure below specs capacity
-  set_target_speed(99.0);
+  set_target_speed_left(0.0);
+  set_target_speed_right(0.0);
   
-  myPID.SetSampleTime(PID_LOOP_TIME_MS);
+  myPID_right.SetSampleTime(PID_LOOP_TIME_MS);
   //myPID.SetOutputLimits(min, max)  
   //myPID.SetOutputLimits(15, 255); // below 15 PWM does nothing (maybe friction due to gearbox ?)
-  myPID.SetOutputLimits(0, 255);
+  myPID_right.SetOutputLimits(0, 255);
+
+  myPID_left.SetSampleTime(PID_LOOP_TIME_MS);
+  myPID_left.SetOutputLimits(0, 255);
+  
   //double Kp=2, Ki=5, Kd=1; // why not?
   //set_pid_tuning(2,5,1); // oscillate
-  //set_pid_tuning(0.5,1,0);
+  set_pid_tuning(0.5,2.05,0.01); // best default tuning values I could come up with
 
-  set_pid_mode(0); 
+  set_pid_mode_left(0); 
+  set_pid_mode_right(0); 
 }
 
-void set_pid_mode(int mode) 
+void set_pid_mode_left(int mode) 
 { 
   if (mode == 1) { 
-    myPID.SetMode(AUTOMATIC);
+    myPID_left.SetMode(AUTOMATIC);
   } else { 
-    myPID.SetMode(MANUAL);
-    Output = 0;
+    myPID_left.SetMode(MANUAL);
+    Output_left = 0;
+  }
+}
+void set_pid_mode_right(int mode) 
+{ 
+  if (mode == 1) { 
+    myPID_right.SetMode(AUTOMATIC);
+  } else { 
+    myPID_right.SetMode(MANUAL);
+    Output_right = 0;
   }
 }
 
-void set_pid_tuning(double kp, double ki, double kd) { myPID.SetTunings(kp, ki, kd); }
+void set_pid_tuning(double kp, double ki, double kd) { 
+  myPID_left.SetTunings(kp, ki, kd); 
+  myPID_right.SetTunings(kp, ki, kd); 
+}
 
-void set_target_speed(double rpm) 
+void set_target_speed_left(double rpm) 
 {
   if (rpm < -146) rpm = -146;
   if (rpm > 146) rpm = 146;
-  Setpoint = rpm;
+  Setpoint_left = rpm;
+}
+void set_target_speed_right(double rpm) 
+{
+  if (rpm < -146) rpm = -146;
+  if (rpm > 146) rpm = 146;
+  Setpoint_right = rpm;
 }
 
 void update_pid() 
@@ -263,27 +293,58 @@ void update_pid()
   //countAnt = count;     
 
   static long Right_Encoder_Ticks_Ant = 0;
+  static long Left_Encoder_Ticks_Ant = 0;
   long now = millis();
   if (now - last_update_ms > PID_LOOP_TIME_MS) {
     // Encoder Resolution: 13 PPR (663 PPR for gearbox shaft)
     // Gear ratio: 51:1
-    right_RPM = ((Right_Encoder_Ticks - Right_Encoder_Ticks_Ant)*(60*(1000.0/PID_LOOP_TIME_MS)))/(13*51); 
+    //right_RPM = ((Right_Encoder_Ticks - Right_Encoder_Ticks_Ant)*(60*(1000.0/PID_LOOP_TIME_MS)))/(13*51); 
+    right_RPM = ((Right_Encoder_Ticks - Right_Encoder_Ticks_Ant)*(60*(1000.0/PID_LOOP_TIME_MS)))/(657); // calibration says 657 and not manufacturer value 13*51=663 
     Right_Encoder_Ticks_Ant = Right_Encoder_Ticks;
-    Input = right_RPM;
-    myPID.Compute();
-    moveRightMotor(Output);
+    Input_right = right_RPM;
+    myPID_right.Compute();
+    if (Setpoint_right == 0 && Output_right < 20) {
+      set_pid_mode_right(0);
+      moveRightMotor(0);
+    } else {
+      moveRightMotor(Output_right);
+    }      
     //Serial.print("r,");
-    Serial.print(Setpoint);
+    Serial.print(Setpoint_right);
     Serial.print(",");
-    Serial.print(Input);
-    //Serial.print(",");
-    //Serial.print(Output);
+    Serial.print(Input_right);
+    Serial.print(",");
+    //Serial.print(Output_right);
 
+
+    left_RPM = ((Left_Encoder_Ticks - Left_Encoder_Ticks_Ant)*(60*(1000.0/PID_LOOP_TIME_MS)))/(657); // calibration says 657 and not manufacturer value 13*51=663 
+    Left_Encoder_Ticks_Ant = Left_Encoder_Ticks;
+    Input_left = left_RPM;
+    myPID_left.Compute();
+    if (Setpoint_left == 0 && Output_left < 20) {
+      set_pid_mode_left(0);
+      moveLeftMotor(0);
+    } else {
+      moveLeftMotor(Output_left);
+    }      
+    //Serial.print("r,");
     Serial.print(",");
+    Serial.print(Setpoint_left);
+    Serial.print(",");
+    Serial.print(Input_left);
+    //Serial.print(",");
+    //Serial.print(Output_left);
+    Serial.print("\n");
+
+    
+
+
+    /*Serial.print(",");
     Serial.print(Left_Encoder_Ticks);
     Serial.print(",");
     Serial.print(Right_Encoder_Ticks);
     Serial.print("\n");
+    */
 
     /*Serial.print("k,");
     Serial.print(myPID.GetKp());
