@@ -38,6 +38,10 @@ char buf[MAX_BUF]; // command received on serial
 int8_t bufindex; //index
 char c = 0;
 
+// debug is for adjusting fisplay so that we can use the serialplotter
+// to adjust the tuning of the PID
+// https://bitbucket.org/hyOzd/serialplot/downloads/ 
+//uint8_t debug = 1;
 
 //Encoder pins definition
 
@@ -55,6 +59,10 @@ volatile long Right_Encoder_Ticks = 0;
 //Variable to read current state of right encoder pin
 volatile bool RightEncoderBSet;
 
+//double ticks_per_revolution = 657.0;
+int ticks_per_revolution = 657;
+
+/////////////////////////////////////
 // with PID lib
 #include <PID_v1.h>
 //Define Variables we'll be connecting to
@@ -64,14 +72,28 @@ double Setpoint_right, Input_right, Output_right;
 //Specify the links and initial tuning parameters
 double Kp=2, Ki=5, Kd=1;
 //PID myPID(&Input, &Output, &Setpoint, Kp, Ki, Kd, DIRECT);
-PID myPID_left(&Input_left, &Output_left, &Setpoint_left, Kp, Ki, Kd, P_ON_M, DIRECT);
-PID myPID_right(&Input_right, &Output_right, &Setpoint_right, Kp, Ki, Kd, P_ON_M, DIRECT);
+PID myPID_left(&Input_left, &Output_left, &Setpoint_left, Kp, Ki, Kd, P_ON_E, DIRECT);
+PID myPID_right(&Input_right, &Output_right, &Setpoint_right, Kp, Ki, Kd, P_ON_E, DIRECT);
 
 
-#define PID_LOOP_TIME_MS        200                     // PID loop time (milli sec. 100ms <=> 10Hz)
+#define PID_LOOP_TIME_MS        50                     // PID loop time (milli sec. 100ms <=> 10Hz)
 double  right_RPM = 0.0;
 double  left_RPM = 0.0;
 long last_update_ms = 0;  
+
+
+
+/////////////////////////////////////
+//  odometry within arduino
+// references http://andrewjkramer.net/arduino-odometry/
+//            https://github.com/1988kramer/motor_control/blob/master/DifferentialDrive.cpp
+#include <math.h>  // for cos/sin
+double _x = 0.0;
+double _y = 0.0;
+double _theta = PI;
+double wheels_distance_mm = 0.00001;
+double degrees_per_millimeter = 0.00001;
+  
 
 
 void setup() {
@@ -80,14 +102,19 @@ void setup() {
   bufindex = 0;
   setup_motors();
   setup_encoders();
+  //setup_odometry();
   setup_pid();
-
 }
 
 void loop() {
   read_serial();
+  //print_encoder();
   update_pid();
 }
+
+
+
+//void set_debug(int d) { debug = d; }
 
 void setup_motors() {
   pinModeFast(pin_motor_left_dir, OUTPUT);
@@ -145,7 +172,6 @@ void parse_command(char * cmd) {
     double ki = atof(token);
     token = strtok(NULL, ",");
     double kd = atof(token);
-    token = strtok(NULL, ",");
     set_pid_tuning(kp, ki, kd);
     set_pid_mode_left(1); set_pid_mode_right(1);
   } else if (cmd[0] == 'o') { // set PID active 1 / inactive 0
@@ -153,6 +179,11 @@ void parse_command(char * cmd) {
     token = strtok(cmd, ",");
     int m = atoi(token);
     set_pid_mode_left(m); set_pid_mode_right(m);
+//  } else if (cmd[0] == 'd') { // set debug active (1) / inactive (0) DEFAULT
+//    cmd[0] = ',';
+//    token = strtok(cmd, ",");
+//    int d = atoi(token);
+//    set_debug(d);
   }
 }
 
@@ -219,6 +250,16 @@ void do_right_encoder()
   Right_Encoder_Ticks += RightEncoderBSet ? -1 : +1;
 }
 
+/*void print_encoder(){
+  if (debug == 0) {
+    Serial.print("e,");
+    Serial.print(Left_Encoder_Ticks);
+    Serial.print(",");
+    Serial.print(Right_Encoder_Ticks);
+    Serial.print("\n");
+  }
+}*/
+
 
 void setup_pid() 
 {
@@ -232,15 +273,15 @@ void setup_pid()
   myPID_right.SetSampleTime(PID_LOOP_TIME_MS);
   //myPID.SetOutputLimits(min, max)  
   //myPID.SetOutputLimits(15, 255); // below 15 PWM does nothing (maybe friction due to gearbox ?)
-  myPID_right.SetOutputLimits(0, 255);
+  myPID_right.SetOutputLimits(-255, 255);
 
   myPID_left.SetSampleTime(PID_LOOP_TIME_MS);
-  myPID_left.SetOutputLimits(0, 255);
+  myPID_left.SetOutputLimits(-255, 255);
   
   //double Kp=2, Ki=5, Kd=1; // why not?
   //set_pid_tuning(2,5,1); // oscillate
-  set_pid_tuning(0.5,2.05,0.01); // best default tuning values I could come up with
-
+  //set_pid_tuning(0.5,2.05,0.01); // best default tuning values I could come up with
+  set_pid_tuning(0.2,3,0.06);
   set_pid_mode_left(0); 
   set_pid_mode_right(0); 
 }
@@ -266,7 +307,7 @@ void set_pid_mode_right(int mode)
 
 void set_pid_tuning(double kp, double ki, double kd) { 
   myPID_left.SetTunings(kp, ki, kd); 
-  myPID_right.SetTunings(kp, ki, kd); 
+  myPID_right.SetTunings(kp, ki, kd);
 }
 
 void set_target_speed_left(double rpm) 
@@ -299,29 +340,30 @@ void update_pid()
     // Encoder Resolution: 13 PPR (663 PPR for gearbox shaft)
     // Gear ratio: 51:1
     //right_RPM = ((Right_Encoder_Ticks - Right_Encoder_Ticks_Ant)*(60*(1000.0/PID_LOOP_TIME_MS)))/(13*51); 
-    right_RPM = ((Right_Encoder_Ticks - Right_Encoder_Ticks_Ant)*(60*(1000.0/PID_LOOP_TIME_MS)))/(657); // calibration says 657 and not manufacturer value 13*51=663 
-    Right_Encoder_Ticks_Ant = Right_Encoder_Ticks;
+    right_RPM = ((Right_Encoder_Ticks - Right_Encoder_Ticks_Ant)*(60*(1000.0/PID_LOOP_TIME_MS)))/(ticks_per_revolution); // calibration says 657 and not manufacturer value 13*51=663 
     Input_right = right_RPM;
     myPID_right.Compute();
-    if (Setpoint_right == 0 && Output_right < 20) {
+    if (Setpoint_right == 0 && (-20 < Output_right || Output_right < 20)) {
       set_pid_mode_right(0);
       moveRightMotor(0);
     } else {
       moveRightMotor(Output_right);
     }      
-    //Serial.print("r,");
+    
+    //if (debug == 0) {
+    //  Serial.print("r,");
+    //}
     Serial.print(Setpoint_right);
     Serial.print(",");
     Serial.print(Input_right);
-    Serial.print(",");
+    //Serial.print(",");
     //Serial.print(Output_right);
 
 
-    left_RPM = ((Left_Encoder_Ticks - Left_Encoder_Ticks_Ant)*(60*(1000.0/PID_LOOP_TIME_MS)))/(657); // calibration says 657 and not manufacturer value 13*51=663 
-    Left_Encoder_Ticks_Ant = Left_Encoder_Ticks;
+    left_RPM = ((Left_Encoder_Ticks - Left_Encoder_Ticks_Ant)*(60*(1000.0/PID_LOOP_TIME_MS)))/(ticks_per_revolution); // calibration says 657 and not manufacturer value 13*51=663 
     Input_left = left_RPM;
     myPID_left.Compute();
-    if (Setpoint_left == 0 && Output_left < 20) {
+    if (Setpoint_left == 0 && (-20 < Output_left  || Output_left  < 20 ) ) {
       set_pid_mode_left(0);
       moveLeftMotor(0);
     } else {
@@ -334,32 +376,108 @@ void update_pid()
     Serial.print(Input_left);
     //Serial.print(",");
     //Serial.print(Output_left);
-    Serial.print("\n");
+    //Serial.print("\n");
 
     
 
+    //update_diff_drive_position(Left_Encoder_Ticks_Ant, Right_Encoder_Ticks_Ant);
+    Right_Encoder_Ticks_Ant = Right_Encoder_Ticks;
+    Left_Encoder_Ticks_Ant = Left_Encoder_Ticks;
+    //Serial.print("       ,");
+    //Serial.print(_x);
+    //Serial.print(",");
+    //Serial.print(_y);
+    //Serial.print(",");
+    //Serial.print(_theta);
 
-    /*Serial.print(",");
+    
+
+    Serial.print(",");
     Serial.print(Left_Encoder_Ticks);
     Serial.print(",");
     Serial.print(Right_Encoder_Ticks);
+    //Serial.print("\n");
+    
+
+    /*//Serial.print("k,");
+    Serial.print(",");
+    Serial.print(myPID_left.GetKp());
+    Serial.print(",");
+    Serial.print(myPID_left.GetKi());
+    Serial.print(",");
+    Serial.print(myPID_left.GetKd());
+    //Serial.print(",");
+    //Serial.print(myPID.GetMode());
+    //Serial.print(",");
+    //Serial.print(myPID.GetDirection());
     Serial.print("\n");
     */
 
-    /*Serial.print("k,");
-    Serial.print(myPID.GetKp());
+    
     Serial.print(",");
-    Serial.print(myPID.GetKi());
-    Serial.print(",");
-    Serial.print(myPID.GetKd());
-    Serial.print(",");
-    Serial.print(myPID.GetMode());
-    Serial.print(",");
-    Serial.print(myPID.GetDirection());
+    Serial.print(now);
     Serial.print("\n");
-    */
     last_update_ms = now;
+  //} else {
+    //Serial.print("x\n");
   }
 }
 
+/*
+void setup_odometry() {
+  // default values
+  //set_odometry(double wheel_diameter_mm_, double ticks_per_revolution_, double wheels_distance_mm_) {
+  set_odometry(136.0, 657, 328);
+}
+
+void set_odometry(double wheel_diameter_mm_, double ticks_per_revolution_, double wheels_distance_mm_) {
+  ticks_per_revolution = ticks_per_revolution_;
+  wheels_distance_mm = wheels_distance_mm_;
+  double wheel_distance_per_revolution_in_mm = wheel_diameter_mm_ * PI; // 136*PI = 427.25 millimeters per 360 degrees
+  degrees_per_millimeter = 360.0 / wheel_distance_per_revolution_in_mm; // 360 / 427.25 = 0.842 degrees per mm
+  _x = 0.0;
+  _y = 0.0;
+  _theta = 0.0;
+}
+
+
+void update_diff_drive_position(long Left_Encoder_Ticks_Ant, long Right_Encoder_Ticks_Ant)
+{
+   // get the angular distance traveled by each wheel since the last update
+   double leftDegrees = (Left_Encoder_Ticks - Left_Encoder_Ticks_Ant) / ticks_per_revolution * 360;
+   double rightDegrees = (Right_Encoder_Ticks - Right_Encoder_Ticks_Ant) / ticks_per_revolution * 360;
+
+   // convert the angular distances to linear distances
+   double dLeft = leftDegrees / degrees_per_millimeter;
+   double dRight = rightDegrees / degrees_per_millimeter;
+
+   // calculate the length of the arc traveled by Colin
+   double dCenter = (dLeft + dRight) / 2.0;
+
+   Serial.print(",");
+   Serial.print(dLeft);
+   Serial.print(",");
+   Serial.print(dRight);
+   Serial.print(",");
+   Serial.print(dCenter);
+
+
+   // calculate Colin's change in angle
+   double phi = (dRight - dLeft) / (double)wheels_distance_mm;
+
+   Serial.print(",");
+   Serial.print(phi);
+   
+   // add the change in angle to the previous angle
+   _theta += phi;
+   // constrain _theta to the range 0 to 2 pi
+   if (_theta > 2.0 * PI) _theta -= 2.0 * PI;
+   if (_theta < 0.0) _theta += 2.0 * PI;
+
+   // update Colin's x and y coordinates
+   _x += dCenter * cos(_theta);
+   _y += dCenter * sin(_theta);
+}
+
+*/
 
