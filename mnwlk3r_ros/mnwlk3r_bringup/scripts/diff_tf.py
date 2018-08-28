@@ -3,52 +3,14 @@
 """
    diff_tf.py - follows the output of a wheel encoder and
    creates tf and odometry messages.
+   
+   inpsiration => https://github.com/qboticslabs/Chefbot_ROS_pkg/blob/master/chefbot/chefbot_bringup/scripts/diff_tf.py
+   
    some code borrowed from the arbotix diff_controller script
    A good reference: http://rossum.sourceforge.net/papers/DiffSteer/
    
-    Copyright (C) 2012 Jon Stephan. 
-     
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-   
-   ----------------------------------
    Portions of this code borrowed from the arbotix_python diff_controller.
    
-diff_controller.py - controller for a differential drive
-  Copyright (c) 2010-2011 Vanadium Labs LLC.  All right reserved.
-
-  Redistribution and use in source and binary forms, with or without
-  modification, are permitted provided that the following conditions are met:
-      * Redistributions of source code must retain the above copyright
-        notice, this list of conditions and the following disclaimer.
-      * Redistributions in binary form must reproduce the above copyright
-        notice, this list of conditions and the following disclaimer in the
-        documentation and/or other materials provided with the distribution.
-      * Neither the name of Vanadium Labs LLC nor the names of its 
-        contributors may be used to endorse or promote products derived 
-        from this software without specific prior written permission.
-  
-  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  DISCLAIMED. IN NO EVENT SHALL VANADIUM LABS BE LIABLE FOR ANY DIRECT, INDIRECT,
-  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
-  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
-  LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
-  OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
-  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 """
 
 import rospy
@@ -60,15 +22,13 @@ from geometry_msgs.msg import Quaternion
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from tf.broadcaster import TransformBroadcaster
-from std_msgs.msg import Int16, Int64
+#from std_msgs.msg import Int16, Int64
+from mnwlk3r_bringup.msg import EncoderCounts 
 
-#############################################################################
+
 class DiffTf:
-#############################################################################
 
-    #############################################################################
     def __init__(self):
-    #############################################################################
         rospy.init_node("diff_tf")
         self.nodename = rospy.get_name()
         rospy.loginfo("-I- %s started" % self.nodename)
@@ -106,23 +66,20 @@ class DiffTf:
         self.then = rospy.Time.now()
         
         # subscriptions
-        rospy.Subscriber("lwheel", Int64, self.lwheelCallback)
-        rospy.Subscriber("rwheel", Int64, self.rwheelCallback)
+        rospy.Subscriber("encoder_counts", EncoderCounts, self.encoder_counts_callback)
+
+        # publisher
         self.odomPub = rospy.Publisher("odom", Odometry,queue_size=10)
         self.odomBroadcaster = TransformBroadcaster()
         
-    #############################################################################
     def spin(self):
-    #############################################################################
         r = rospy.Rate(self.rate)
         while not rospy.is_shutdown():
             self.update()
             r.sleep()
        
      
-    #############################################################################
     def update(self):
-    #############################################################################
         now = rospy.Time.now()
         if now > self.t_next:
             elapsed = now - self.then
@@ -188,40 +145,31 @@ class DiffTf:
             self.odomPub.publish(odom)
             
             
-
-
-    #############################################################################
-    def lwheelCallback(self, msg):
-    #############################################################################
-        enc = msg.data
-        if (enc < self.encoder_low_wrap and self.prev_lencoder > self.encoder_high_wrap):
+    def encoder_counts_callback(self, msg):
+        enc_left = msg.left
+        enc_right = msg.right
+        
+        # left
+        if (enc_left < self.encoder_low_wrap and self.prev_lencoder > self.encoder_high_wrap):
             self.lmult = self.lmult + 1
             
-        if (enc > self.encoder_high_wrap and self.prev_lencoder < self.encoder_low_wrap):
+        if (enc_left > self.encoder_high_wrap and self.prev_lencoder < self.encoder_low_wrap):
             self.lmult = self.lmult - 1
             
-        self.left = 1.0 * (enc + self.lmult * (self.encoder_max - self.encoder_min)) 
+        self.left = 1.0 * (enc_left + self.lmult * (self.encoder_max - self.encoder_min)) 
+        self.prev_lencoder = enc_left
 
-
-        self.prev_lencoder = enc
-        
-    #############################################################################
-    def rwheelCallback(self, msg):
-    #############################################################################
-        enc = msg.data
-        if(enc < self.encoder_low_wrap and self.prev_rencoder > self.encoder_high_wrap):
+        # right
+        if(enc_right < self.encoder_low_wrap and self.prev_rencoder > self.encoder_high_wrap):
             self.rmult = self.rmult + 1
         
-        if(enc > self.encoder_high_wrap and self.prev_rencoder < self.encoder_low_wrap):
+        if(enc_right > self.encoder_high_wrap and self.prev_rencoder < self.encoder_low_wrap):
             self.rmult = self.rmult - 1
             
-        self.right = 1.0 * (enc + self.rmult * (self.encoder_max - self.encoder_min))
+        self.right = 1.0 * (enc_right + self.rmult * (self.encoder_max - self.encoder_min))
+        self.prev_rencoder = enc_right
 
-
-        self.prev_rencoder = enc
-
-#############################################################################
-#############################################################################
+        
 if __name__ == '__main__':
     """ main """
     diffTf = DiffTf()
