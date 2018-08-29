@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="594mm"
+   height="420mm"
+   viewBox="0 0 594 420"
+   id="svg114"
+   sodipodi:docname="mini_rbt_top_v0.2_.svg"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
+  <metadata
+     id="metadata118">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1028"
+     id="namedview116"
+     showgrid="false"
+     inkscape:zoom="0.42050406"
+     inkscape:cx="430.68047"
+     inkscape:cy="-126.55887"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg114" />
+  <!-- Working space 0 0 594 420 -->
+  <defs
+     id="defs12">
+    <radialGradient
+       id="radialGradient3661"
+       gradientUnits="userSpaceOnUse"
+       cy="29.149"
+       cx="282.65"
+       gradientTransform="matrix(.14777 .23089 -.24680 .15795 -26.318 -62.617)"
+       r="19.571">
+      <stop
+         stop-color="#71b2f8"
+         offset="0"
+         id="stop2" />
+      <stop
+         stop-color="#002795"
+         offset="1"
+         id="stop4" />
+    </radialGradient>
+    <radialGradient
+       id="radialGradient3817"
+       gradientUnits="userSpaceOnUse"
+       cy="33.9"
+       cx="270.58"
+       gradientTransform="matrix(.26631 .065024 -.17931 .73438 -60.668 -36.938)"
+       r="19.571">
+      <stop
+         stop-color="#ff6d0f"
+         offset="0"
+         id="stop7" />
+      <stop
+         stop-color="#ff1000"
+         offset="1"
+         id="stop9" />
+    </radialGradient>
+  </defs>
+  <!-- Set display:none to hide FreeCAD Logo -->
+  <g
+     id="Ortho_0_001"
+     transform="rotate(-90,225.83443,54.91146)"
+     style="stroke:#ff0000">
+    <g
+       transform="scale(1,-1)"
+       id="g111"
+       style="fill:none;stroke:#ff0000;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter">
+      <path
+         id="1"
+         d="M 0,-200 V 140"
+         style="stroke:#ff0000"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 0,-200 a 30,30 0 0 1 30,-30"
+         id="path20"
+         style="stroke:#ff0000"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 0,140 a 30,30 0 0 0 30,30"
+         id="path22"
+         style="stroke:#ff0000"
+         inkscape:connector-curvature="0" />
+      <path
+         id="4"
+         d="M 30,-230 H 250"
+         style="stroke:#ff0000"
+         inkscape:connector-curvature="0" />
+      <path
+         id="5"
+         d="M 30,170 H 250"
+         style="stroke:#ff0000"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 280,-200 a 30,30 0 0 0 -30,-30"
+         id="path26"
+         style="stroke:#ff0000"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 280,140 a 30,30 0 0 1 -30,30"
+         id="path28"
+         style="stroke:#ff0000"
+         inkscape:connector-curvature="0" />
+      <path
+         id="8"
+         d="M 280,-200 V 140"
+         style="stroke:#ff0000"
+         inkscape:connector-curvature="0" />
+      <circle
+         cx="270"
+         cy="-160"
+         r="2.0999999"
+         id="circle31"
+         style="stroke:#ff0000" />
+      <circle
+         cx="270"
+         cy="-110"
+         r="2.0999999"
+         id="circle33"
+         style="stroke:#ff0000" />
+      <circle
+         cx="234"
+         cy="-20"
+         r="2.0999999"
+         id="circle35"
+         style="stroke:#ff0000" />
+      <circle
+         cx="264"
+         cy="-20"
+         r="2.0999999"
+         id="circle37"
+         style="stroke:#ff0000" />
+      <circle
+         cx="270"
+         cy="-60"
+         r="2.0999999"
+         id="circle39"
+         style="stroke:#ff0000" />
+      <circle
+         cx="183.33299"
+         cy="-60"
+         r="2.0999999"
+         id="circle41"
+         style="stroke:#ff0000" />
+      <circle
+         cx="183.33299"
+         cy="-160"
+         r="2.0999999"
+         id="circle43"
+         style="stroke:#ff0000" />
+      <circle
+         cx="10"
+         cy="-60"
+         r="2.0999999"
+         id="circle45"
+         style="stroke:#ff0000" />
+      <circle
+         cx="16"
+         cy="-20"
+         r="2.0999999"
+         id="circle47"
+         style="stroke:#ff0000" />
+      <circle
+         cx="46"
+         cy="-20"
+         r="2.0999999"
+         id="circle49"
+         style="stroke:#ff0000" />
+      <circle
+         cx="96.666702"
+         cy="-60"
+         r="2.0999999"
+         id="circle51"
+         style="stroke:#ff0000" />
+      <circle
+         cx="96.666702"
+         cy="-160"
+         r="2.0999999"
+         id="circle53"
+         style="stroke:#ff0000" />
+      <circle
+         cx="10"
+         cy="-110"
+         r="2.0999999"
+         id="circle55"
+         style="stroke:#ff0000" />
+      <circle
+         cx="10"
+         cy="-160"
+         r="2.0999999"
+         id="circle57"
+         style="stroke:#ff0000" />
+      <circle
+         cx="96.666702"
+         cy="40"
+         r="2.0999999"
+         id="circle59"
+         style="stroke:#ff0000" />
+      <circle
+         cx="140"
+         cy="0"
+         r="2.0999999"
+         id="circle61"
+         style="stroke:#ff0000" />
+      <circle
+         cx="183.33299"
+         cy="40"
+         r="2.0999999"
+         id="circle63"
+         style="stroke:#ff0000" />
+      <circle
+         cx="16"
+         cy="20"
+         r="2.0999999"
+         id="circle65"
+         style="stroke:#ff0000" />
+      <circle
+         cx="46"
+         cy="20"
+         r="2.0999999"
+         id="circle67"
+         style="stroke:#ff0000" />
+      <circle
+         cx="234"
+         cy="20"
+         r="2.0999999"
+         id="circle69"
+         style="stroke:#ff0000" />
+      <circle
+         cx="270"
+         cy="40"
+         r="2.0999999"
+         id="circle71"
+         style="stroke:#ff0000" />
+      <circle
+         cx="264"
+         cy="20"
+         r="2.0999999"
+         id="circle73"
+         style="stroke:#ff0000" />
+      <circle
+         cx="10"
+         cy="40"
+         r="2.0999999"
+         id="circle75"
+         style="stroke:#ff0000" />
+      <circle
+         cx="260"
+         cy="150"
+         r="2.0999999"
+         id="circle77"
+         style="stroke:#ff0000" />
+      <circle
+         cx="183.33299"
+         cy="140"
+         r="2.0999999"
+         id="circle79"
+         style="stroke:#ff0000" />
+      <circle
+         cx="96.666702"
+         cy="140"
+         r="2.0999999"
+         id="circle81"
+         style="stroke:#ff0000" />
+      <circle
+         cx="270"
+         cy="80"
+         r="2.0999999"
+         id="circle83"
+         style="stroke:#ff0000" />
+      <circle
+         cx="270"
+         cy="140"
+         r="2.0999999"
+         id="circle85"
+         style="stroke:#ff0000" />
+      <circle
+         cx="10"
+         cy="80"
+         r="2.0999999"
+         id="circle87"
+         style="stroke:#ff0000" />
+      <circle
+         cx="20"
+         cy="150"
+         r="2.0999999"
+         id="circle89"
+         style="stroke:#ff0000" />
+      <circle
+         cx="10"
+         cy="140"
+         r="2.0999999"
+         id="circle91"
+         style="stroke:#ff0000" />
+      <circle
+         cx="260"
+         cy="-210"
+         r="2.0999999"
+         id="circle93"
+         style="stroke:#ff0000" />
+      <circle
+         cx="210"
+         cy="-200"
+         r="12"
+         id="circle95"
+         style="stroke:#ff0000" />
+      <circle
+         cx="70"
+         cy="-200"
+         r="12"
+         id="circle97"
+         style="stroke:#ff0000" />
+      <circle
+         cx="140"
+         cy="-200"
+         r="2"
+         id="circle99"
+         style="stroke:#ff0000" />
+      <circle
+         cx="160.86"
+         cy="-179.14"
+         r="1.6"
+         id="circle101"
+         style="stroke:#ff0000" />
+      <circle
+         cx="119.14"
+         cy="-179.14"
+         r="1.6"
+         id="circle103"
+         style="stroke:#ff0000" />
+      <circle
+         cx="20"
+         cy="-210"
+         r="2.0999999"
+         id="circle105"
+         style="stroke:#ff0000" />
+      <circle
+         cx="160.86"
+         cy="-220.86"
+         r="1.6"
+         id="circle107"
+         style="stroke:#ff0000" />
+      <circle
+         cx="119.14"
+         cy="-220.86"
+         r="1.6"
+         id="circle109"
+         style="stroke:#ff0000" />
+    </g>
+  </g>
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter"
+     id="1-4"
+     d="m 370.92297,560.74588 h -340"
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter"
+     d="m 370.92297,560.74588 a 30,30 0 0 0 30,-30"
+     id="path20-4"
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter"
+     d="m 30.92297,560.74588 a 30,30 0 0 1 -30,-30"
+     id="path22-3"
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter"
+     id="4-1"
+     d="M 400.92297,530.74588 V 310.74589"
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter"
+     id="5-7"
+     d="M 0.92297,530.74588 V 310.74589"
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter"
+     d="m 370.92297,280.74589 a 30,30 0 0 1 30,30"
+     id="path26-1"
+     inkscape:connector-curvature="0" />
+  <path
+     style="fill:none;stroke:#000000;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter"
+     d="m 30.92297,280.74589 a 30,30 0 0 0 -30,30"
+     id="path28-6"
+     inkscape:connector-curvature="0" />
+  <g
+     id="g1590"
+     style="stroke:#00ff00">
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle31-9"
+       r="1.2"
+       cy="-257.92297"
+       cx="-301.24588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle33-9"
+       r="1.2"
+       cy="-257.92297"
+       cx="-350.24588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle35-8"
+       r="1.25"
+       cy="-226.22296"
+       cx="-395.04587"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle37-7"
+       r="2.0999999"
+       cy="-190.92297"
+       cx="-326.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle39-7"
+       r="2.0999999"
+       cy="-190.92297"
+       cx="-544.74591"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle41-5"
+       r="2.0999999"
+       cy="-190.92297"
+       cx="-514.74591"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle43-7"
+       r="1.25"
+       cy="-208.55296"
+       cx="-535.68591"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle45-1"
+       r="1.25"
+       cy="-208.55296"
+       cx="-479.80588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle47-8"
+       r="1.25"
+       cy="-224.92297"
+       cx="-443.24588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle49-4"
+       r="2.0999999"
+       cy="-190.92297"
+       cx="-296.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle51-4"
+       r="10"
+       cy="-140.92297"
+       cx="-420.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle53-5"
+       r="2.0999999"
+       cy="-150.92297"
+       cx="-544.74591"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle55-8"
+       r="2.0999999"
+       cy="-150.92297"
+       cx="-514.74591"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle57-5"
+       r="2.0999999"
+       cy="-170.92297"
+       cx="-420.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle59-6"
+       r="2.0999999"
+       cy="-150.92297"
+       cx="-326.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle61-2"
+       r="2.0999999"
+       cy="-150.92297"
+       cx="-296.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle63-4"
+       r="3"
+       cy="-391.78296"
+       cx="-399.88586"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle65-4"
+       r="3"
+       cy="-391.78296"
+       cx="-441.60587"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle67-8"
+       r="1.6"
+       cy="-370.92297"
+       cx="-400.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle69-7"
+       r="3"
+       cy="-350.06296"
+       cx="-399.88586"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle71-6"
+       r="3"
+       cy="-350.06296"
+       cx="-441.60587"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle73-4"
+       r="1.25"
+       cy="-277.02298"
+       cx="-410.24588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle75-4"
+       r="1.25"
+       cy="-277.02298"
+       cx="-438.14587"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle77-1"
+       r="1.6"
+       cy="-370.92297"
+       cx="-365.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle79-8"
+       r="2.0999999"
+       cy="-380.92297"
+       cx="-300.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle81-3"
+       r="5.0999999"
+       cy="-380.92297"
+       cx="-340.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle83-0"
+       r="1.2"
+       cy="-315.92297"
+       cx="-301.24588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle85-4"
+       r="1.2"
+       cy="-315.92297"
+       cx="-350.24588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle87-1"
+       r="1.25"
+       cy="-287.29297"
+       cx="-479.80588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle89-5"
+       r="5.0999999"
+       cy="-380.92297"
+       cx="-500.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle91-7"
+       r="1.25"
+       cy="-287.29297"
+       cx="-535.68591"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle93-6"
+       r="2.0999999"
+       cy="-380.92297"
+       cx="-540.74591"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle95-8"
+       r="2.0999999"
+       cy="-90.922974"
+       cx="-550.74591"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle97-9"
+       r="2.0999999"
+       cy="-280.92297"
+       cx="-550.74591"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle99-5"
+       r="2.0999999"
+       cy="-90.922974"
+       cx="-290.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle101-9"
+       r="2.0999999"
+       cy="-280.92297"
+       cx="-290.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle103-4"
+       r="5.0999999"
+       cy="-20.922972"
+       cx="-500.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 47.42297,505.74588 h -5"
+       id="46"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 42.42297,505.74588 v 25"
+       id="47"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 47.42297,530.74588 h -5"
+       id="48"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 47.42297,505.74588 v 25"
+       id="49"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 85.42297,505.74588 h -5"
+       id="50"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 80.42297,505.74588 v 25"
+       id="51"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 85.42297,530.74588 h -5"
+       id="52"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 85.42297,505.74588 v 25"
+       id="53"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle113"
+       r="2.0999999"
+       cy="-20.922972"
+       cx="-300.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle115"
+       r="5.0999999"
+       cy="-20.922972"
+       cx="-340.74588"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+    <circle
+       transform="matrix(0,-1,-1,0,0,0)"
+       id="circle117"
+       r="2.0999999"
+       cy="-20.922972"
+       cx="-540.74591"
+       style="fill:none;stroke:#00ff00;stroke-width:0.34999999;stroke-linecap:butt;stroke-linejoin:miter" />
+  </g>
+</svg>
