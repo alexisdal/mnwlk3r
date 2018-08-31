@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Run the map server -->
+  <arg name="map_file" default="$(find mnwlk3r_navigation)/maps/fablab_map.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!--- bringup -->
+  <include file="$(find mnwlk3r_bringup)/launch/robot_standalone.launch" />
+
+  <!--- rplidar -->
+  <include file="$(find mnwlk3r_bringup)/launch/rplidar.launch" />
+  
+
+  <!--- Run Move Base -->
+  <include file="$(find mnwlk3r_bringup)/launch/includes/move_base.launch.xml" />
+
+    <!--- Run AMCL -->
+  <include file="$(find mnwlk3r_navigation)/launch/amcl.launch" />
+
+  
+</launch>

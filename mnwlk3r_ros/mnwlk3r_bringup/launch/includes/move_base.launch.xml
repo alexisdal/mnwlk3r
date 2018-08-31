@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 
 <launch>
 
@@ -12,7 +13,7 @@
     <rosparam file="$(find mnwlk3r_bringup)/param/dwa_local_planner_params.yaml" command="load" />
     <rosparam file="$(find mnwlk3r_bringup)/param/move_base_params.yaml" command="load" />
 
-    <remap from="cmd_vel" to="/cmd_vel_mux/input/navi"/>
+    <remap from="/cmd_vel_mux/input/navi" to="cmd_vel"/> 
     <remap from="odom" to="$(arg odom_topic)"/>
   </node>
 </launch>
