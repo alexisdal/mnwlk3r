@@ -41,6 +41,7 @@
   </gazebo>
 
     <xacro:macro name="cylinder_inertia" params="mass r l">
+      <mass value="${mass}" />
       <inertia  ixx="${mass*(3*r*r+l*l)/12}" ixy = "0" ixz = "0"
                 iyy="${mass*(3*r*r+l*l)/12}" iyz = "0"
                 izz="${mass*(r*r)/2}" />
@@ -50,7 +51,9 @@
       note: I am not so sure this formula does apply to me. TODO check against => https://en.wikipedia.org/wiki/List_of_moments_of_inertia
    -->
    <xacro:macro name="box_inertia" params="x y z mass">
-     <inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
+    <mass value="${mass}" />
+
+    <inertia ixx="${0.0833333 * mass * (y*y + z*z)}" ixy="0.0" ixz="0.0"
        iyy="${0.0833333 * mass * (x*x + z*z)}" iyz="0.0"
        izz="${0.0833333 * mass * (x*x + y*y)}" />
    </xacro:macro>
@@ -59,10 +62,9 @@
     <!-- pose and inertial -->
     <pose>0 0 0.068 0 0 0</pose>
     <inertial>
-      <mass value="5"/>
-      <origin xyz="0 0 0.1" rpy="0.0 0 0"  />
+      <origin xyz="0.1 0 0.02" rpy="0.0 0 0"  />
       <!-- <inertia ixx="0.0395416666667" ixy="0" ixz="0" iyy="0.106208333333" iyz="0" izz="0.106208333333"/> -->
-      <xacro:box_inertia mass="5.2" x="0.400" y="0.280" z="0.066" />
+      <xacro:box_inertia mass="5.2" x="0.200" y="0.280" z="0.066" />
     </inertial>
     
     <collision name="collision_chassis">
@@ -80,12 +82,12 @@
       <material name="grey"/>
     </visual>
     
-    <!-- caster front left (63mm diameter) -->
-    <collision name="caster_front_left_collision">
+    <!-- caster front (63mm diameter) -->
+    <collision name="caster_front_collision">
       <!-- Z = - main wheel radius + caster wheel radius = -136/2 + 63/2 = -68 + 31.5 = -36.5mm  -->   
-      <origin xyz="0.200 0.070 -0.0362"  rpy=" 0 0 0"  />  
+      <origin xyz="0.200 0.000 ${-0.136/2 + 0.050}"  rpy=" 0 0 0"  />  
       <geometry>
-        <sphere radius="0.0315"/>
+        <sphere radius="0.050"/>
       </geometry>
       <surface>
         <friction>
@@ -99,83 +101,12 @@
       </surface>
     </collision>
     <visual name="caster_front_left_visual">
-      <origin xyz="0.200 0.070 -0.0362"  rpy=" 0 0 0"  />  
+      <origin xyz="0.200 0.000 ${-0.136/2 + 0.050}"  rpy=" 0 0 0"  />  
       <geometry>
-        <sphere radius="0.0315"/>
-      </geometry>
-    </visual>
-    <!-- caster front right  -->
-    <collision name="caster_front_right_collision">
-      <origin xyz="0.200 -0.070 -0.0362"  rpy=" 0 0 0"  />  
-      <geometry>
-        <sphere radius="0.0315"/>
-      </geometry>
-      <surface>
-        <friction>
-          <ode>
-            <mu>0</mu>
-            <mu2>0</mu2>
-            <slip1>1.0</slip1>
-            <slip2>1.0</slip2>
-          </ode>
-        </friction>
-      </surface>
-    </collision>
-    <visual name="caster_front_right_visual">
-      <origin xyz="0.200 -0.070 -0.0362"  rpy=" 0 0 0"  />  
-      <geometry>
-        <sphere radius="0.0315"/>
+        <sphere radius="0.050"/>
       </geometry>
     </visual>
 
-    <!-- caster back left  -->
-    <collision name="caster_back_left_collision">
-      <!-- Z = - main wheel radius + caster wheel radius = -136/2 + 63/2 = -68 + 31.5 = -36.5mm  -->   
-      <origin xyz="-0.150 0.080 -0.0362"  rpy=" 0 0 0"  />  
-      <geometry>
-        <sphere radius="0.0315"/>
-      </geometry>
-      <surface>
-        <friction>
-          <ode>
-            <mu>0</mu>
-            <mu2>0</mu2>
-            <slip1>1.0</slip1>
-            <slip2>1.0</slip2>
-          </ode>
-        </friction>
-      </surface>
-    </collision>
-    <visual name="caster_back_left_visual">
-      <origin xyz="-0.150 0.080 -0.0362"  rpy=" 0 0 0"  />  
-      <geometry>
-        <sphere radius="0.0315"/>
-      </geometry>
-    </visual>
-    <!-- caster back right  -->
-    <collision name="caster_back_right_collision">
-      <!-- Z = - main wheel radius + caster wheel radius = -136/2 + 63/2 = -68 + 31.5 = -36.5mm  -->   
-      <origin xyz="-0.150 -0.080 -0.0362"  rpy=" 0 0 0"  />  
-      <geometry>
-        <sphere radius="0.0315"/>
-      </geometry>
-      <surface>
-        <friction>
-          <ode>
-            <mu>0</mu>
-            <mu2>0</mu2>
-            <slip1>1.0</slip1>
-            <slip2>1.0</slip2>
-          </ode>
-        </friction>
-      </surface>
-    </collision>
-    <visual name="caster_back_right_visual">
-      <origin xyz="-0.150 -0.080 -0.0362"  rpy=" 0 0 0"  />  
-      <geometry>
-        <sphere radius="0.0315"/>
-      </geometry>
-    </visual>
 
 
   </link>
@@ -184,7 +115,6 @@
   <!-- wheel diameter 136mm  |  width 24mm -->    
   <link name="link_right_wheel">    
     <inertial>
-      <mass value="0.2"/>
       <origin  xyz="0 0 0" rpy="1.5707 0 0" />  <!-- only 90 deg rotation on X = pi/2 -->
       <!-- <inertia ixx="0.00052666666" ixy="0" ixz="0" iyy="0.00052666666" iyz="0" izz="0.001"/> -->
       <xacro:cylinder_inertia mass="0.150" r="${0.136/2}" l="0.024" />
@@ -213,9 +143,19 @@
     <child link="link_right_wheel" />
     <parent link="base_footprint"/>
     <axis  xyz="0 1 0" rpy="0 0 0" />
-    <limit effort="10000" velocity="1000"/>
+    <limit lower="0" upper="0" effort="10000" velocity="1000" />
     <joint_properties damping="1.0" friction="1.0" />
   </joint>  
+
+  <gazebo reference="link_right_wheel">
+			<mu1 value="100000"/>
+			<mu2 value="100000"/>
+			<kp value="1000000.0" />
+			<kd value="100.0" />
+			<fdir1 value="1 0 0"/>
+			<minDepth>0.005</minDepth>
+			<gravity>true</gravity>
+	</gazebo>
 
   
   
@@ -223,7 +163,6 @@
   <!-- wheel diameter 136mm  |  width 24mm -->    
   <link name="link_left_wheel">    
     <inertial>
-      <mass value="0.2"/>
       <origin  xyz="0 0 0" rpy="1.5707 0 0" />  <!-- only 90 deg rotation on X = pi/2 -->
       <xacro:cylinder_inertia mass="0.150" r="${0.136/2}" l="0.024" />
     </inertial>
@@ -251,10 +190,19 @@
     <child link="link_left_wheel" />
     <parent link="base_footprint"/>
     <axis  xyz="0 1 0" rpy="0 0 0" />
-    <limit effort="10000" velocity="1000"/>
+    <limit lower="0" upper="0" effort="10000" velocity="1000" />
     <joint_properties damping="1.0" friction="1.0" />
   </joint>  
 
+  <gazebo reference="link_left_wheel">
+			<mu1 value="100000"/>
+			<mu2 value="100000"/>
+			<kp value="1000000.0" />
+			<kd value="100.0" />
+			<fdir1 value="1 0 0"/>
+			<minDepth>0.005</minDepth>
+			<gravity>true</gravity>
+	</gazebo>
 
   
   
@@ -263,7 +211,6 @@
    <link name="sensor_laser">
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0" />
-      <mass value="1" />
       <!-- this time we use a xacro to calculate inertia  -->
       <xacro:cylinder_inertia mass="0.190" r="0.038" l="0.041" />
     </inertial>
@@ -300,7 +247,7 @@
          <rightJoint>joint_right_wheel</rightJoint>
          <wheelSeparation>${0.164*2}</wheelSeparation>
          <wheelDiameter>0.136</wheelDiameter>
-         <torque>0.1</torque>
+         <torque>10</torque>
          <commandTopic>cmd_vel</commandTopic>
          <odometryTopic>odom</odometryTopic>
          <odometryFrame>odom</odometryFrame>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
-    <param name="robot_description" command="$(find xacro)/xacro.py '$(find mnwlk3r_description)/urdf/mnwlk3r_base.xacro'"/>
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find mnwlk3r_description)/urdf/mnwlk3r_base.xacro'"/>
  
-    <arg name="x" default="0"/>
+    <arg name="x" default="0"/>0
     <arg name="y" default="0"/>
     <arg name="z" default="0.5"/>
  
