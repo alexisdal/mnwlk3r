@@ -62,9 +62,8 @@
     <!-- pose and inertial -->
     <pose>0 0 0.068 0 0 0</pose>
     <inertial>
-      <origin xyz="0.1 0 0.02" rpy="0.0 0 0"  />
-      <!-- <inertia ixx="0.0395416666667" ixy="0" ixz="0" iyy="0.106208333333" iyz="0" izz="0.106208333333"/> -->
-      <xacro:box_inertia mass="5.2" x="0.200" y="0.280" z="0.066" />
+      <origin xyz="0.030 0 0.062" rpy="0.0 0 0"  />
+      <xacro:box_inertia mass="5.2" x="0.400" y="0.280" z="0.066" />
     </inertial>
     
     <collision name="collision_chassis">
@@ -107,6 +106,29 @@
       </geometry>
     </visual>
 
+    <!-- caster bask  -->
+    <collision name="caster_back_collision">
+      <origin xyz="-0.150 0.000 ${-0.136/2 + 0.050}"  rpy=" 0 0 0"  />  
+      <geometry>
+        <sphere radius="0.050"/>
+      </geometry>
+      <surface>
+        <friction>
+          <ode>
+            <mu>0</mu>
+            <mu2>0</mu2>
+            <slip1>1.0</slip1>
+            <slip2>1.0</slip2>
+          </ode>
+        </friction>
+      </surface>
+    </collision>
+    <visual name="caster_back_left_visual">
+      <origin xyz="-0.150 0.000 ${-0.136/2 + 0.050}"  rpy=" 0 0 0"  />  
+      <geometry>
+        <sphere radius="0.050"/>
+      </geometry>
+    </visual>
 
 
   </link>
@@ -139,7 +161,7 @@
     
   <!--   Joint for right wheel  -->
   <joint name="joint_right_wheel" type="continuous">
-    <origin xyz="0 -0.164 0" rpy="0 0 0"  /> <!-- X=0  |  Y = half box width + 12m spacer + half wheel width ==> x = -280/2 - 12mm -24/2 = -164mm  -->
+    <origin xyz="0 -0.164 -0.001" rpy="0 0 0"  /> <!-- X=0  |  Y = half box width + 12m spacer + half wheel width ==> x = -280/2 - 12mm -24/2 = -164mm  -->
     <child link="link_right_wheel" />
     <parent link="base_footprint"/>
     <axis  xyz="0 1 0" rpy="0 0 0" />
@@ -186,7 +208,7 @@
     
   <!--   Joint for left wheel  -->
   <joint name="joint_left_wheel" type="continuous">
-    <origin xyz="0 0.164 0" rpy="0 0 0"  /> <!-- X=0  |  Y = half box width + 12m spacer + half wheel width ==> x = -280/2 - 12mm -24/2 = -164mm  -->
+    <origin xyz="0 0.164 -0.001" rpy="0 0 0"  /> <!-- X=0  |  Y = half box width + 12m spacer + half wheel width ==> x = -280/2 - 12mm -24/2 = -164mm  -->
     <child link="link_left_wheel" />
     <parent link="base_footprint"/>
     <axis  xyz="0 1 0" rpy="0 0 0" />
