@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- start gazebo with our simulated fablab -->
+  <include file="$(find mnwlk3r_simulation)/launch/gazebo.launch" />
+
+  
+  <!--- spawn mnwlk3r -->
+  <include file="$(find mnwlk3r_simulation)/launch/spawn.launch" />
+
+  <!--- Run AMCL -->
+  <include file="$(find mnwlk3r_navigation)/launch/amcl.launch" />
+
+  <!--- Run Move Base -->
+  <!-- <include file="$(find mnwlk3r_bringup)/launch/includes/move_base.launch.xml" /> -->
+
+
+</launch>
