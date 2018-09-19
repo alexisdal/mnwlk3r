@@ -2,28 +2,14 @@
 <launch>
 
   <arg name="use_map_topic" default="true"/>
+  <arg name="scan_topic" default="/scan" />
   <arg name="base_frame_id" default="base_footprint" />
-  <arg name="scan_topic" default="scan" />
-
-  <!-- Run the map server -->
-  <!-- rosrun map_server map_server ~/catkin_ws/src/mnwlk3r_simulation/maps/fablab_sim.yaml -->
-  <arg name="map_file" default="$(find mnwlk3r_simulation)/maps/fablab_sim.yaml"/>
-  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
-
   
-  <!-- Place map frame at odometry frame -->
-  <!-- rosrun tf static_transform_publisher 0 0 0 0 0 0 map odom 100 -->
-  <!-- <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster"
-      args="0 0 0 0 0 0 map odom 100" /> -->
-      
-  <!-- Localization-->
-  <!-- rosrun amcl amcl   scan:=/scan   base_frame_id:=base_footprint     -->
-  <node pkg="amcl" type="amcl" name="amcl" output="screen">
-    <param name="use_sim_time" value="true"/>  
-    
+  
+  <node pkg="amcl" type="amcl" name="amcl"  output="screen">
     <param name="use_map_topic" value="$(arg use_map_topic)"/>
     <!-- Publish scans from best pose at a max of 10 Hz -->
-    <param name="odom_model_type" value="diff-corrected" />
+    <param name="odom_model_type" value="diff"/>
     <param name="odom_alpha5" value="0.1"/>
     <param name="gui_publish_rate" value="10.0"/>
     <param name="laser_max_beams" value="60"/>
@@ -50,8 +36,7 @@
     <param name="update_min_a" value="0.2"/>
     <param name="odom_frame_id" value="odom"/>
     <param name="resample_interval" value="1"/>
-    <!-- Increase tolerance because the computer can get quite busy -->
-    <param name="transform_tolerance" value="1.0"/>
+    <param name="transform_tolerance" value="0.5"/>
     <param name="recovery_alpha_slow" value="0.0"/>
     <param name="recovery_alpha_fast" value="0.0"/>
     <param name="base_frame_id" value="$(arg base_frame_id)"/>

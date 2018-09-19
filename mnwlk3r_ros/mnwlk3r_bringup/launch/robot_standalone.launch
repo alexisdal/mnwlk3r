@@ -22,7 +22,7 @@
 
    <!-- base_width ==> the distance between the two wheels (from center of wheels?)
      164 mm * 2 = 328mm -->
-  <rosparam param="base_width">0.328</rosparam> <!--  xxxx --> 
+  <rosparam param="base_width">0.328</rosparam>
   <!-- ticks_meter ==> The number of wheel encoder ticks per meter of travel
   in the specs i see 
     Gear ratio: 51:1

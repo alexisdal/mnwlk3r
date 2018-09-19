@@ -1,0 +1,7 @@
+<launch>
+  <!-- <arg name="map_file" default="$(find mnwlk3r_navigation)/maps/office1.yaml"/> -->
+  <arg name="map_file" default="$(find mnwlk3r_navigation)/maps/fablab_sim.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" >
+    <param name="frame_id" value="map"/>
+  </node>
+</launch>
